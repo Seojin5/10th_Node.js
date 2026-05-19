@@ -290,3 +290,153 @@
     - TypeScript 의존성이 높음
     - 복잡한 타입 구조에서는 설정 어려움
     - 데코레이터 기반 문법 학습 필요
+
+    # 시니어
+    - **2.0**
+    
+    ## OpenAPI 2.0 (Swagger 2.0)
+    
+    > Swagger 시절 사용되던 API 명세 버전
+    > 
+    
+    2010년 초 등장했으며, 당시 REST API 문서화 표준 역할을 했다
+    
+    ### 특징
+    
+    - JSON/YAML 기반 API 명세 지원
+    - Swagger UI와 연동
+    - 요청/응답 구조 정의
+    - 기본적인 인증 방식 지원
+    
+    ### 한계
+    
+    #### 1. Request Body 표현 제한
+    
+    : Body 데이터를 표현할때 바디 파라미터 하나만 사용할 수 있다
+    
+    → 파일 업로드나 다양한 컨텐츠 타입 표현이 불편함
+    
+    #### 2. Content-Type 처리 부족
+    
+    consumes, produces 키워드를 사용
+    
+    ```yaml
+    consumes:
+      - application/json
+    ```
+    
+    위처럼 제한적으로 표현 가능
+    
+- **3.0**
+    
+    ## OpenAPI 3.0
+    
+    > OpenAPI라는 이름으로 변경된 이후 첫 주요 버전
+    > 
+    
+    OpenAPI 2.0의 한계를 크게 개선했다
+    
+    : 현재까지도 널리 사용되는 버전
+    
+    ### 특징
+    
+    #### 1. Request Body 구조 개선
+    
+    : requestBody 객체가 추가됨
+    
+    ```yaml
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    ```
+    
+    → 다양한 요청 형식을 유연하게 표현할 수 있다
+    
+    #### 2. Content-Type 표현 개선
+    
+    : 기존 consumes, produces 대신
+    
+    ```yaml
+    content:
+      application/json:
+    ```
+    
+    위와 같은 구조를 사용한다
+    
+    → JSON/XML/Multipart 등을 세부적으로 정의할 수 있다
+    
+    #### 3. Components 도입
+    
+    : 재사용 가능한 객체를 관리할 수 있음
+    
+    ```yaml
+    components:
+      schemas:
+    ```
+    
+    → Schema, Security, Response 등을 중앙 관리할 수 있다
+    
+    #### 4. 파일 업로드 개선
+    
+    : Multipart/From-Data 지원이 자연스러움
+    
+    #### 5. Links 지원
+    
+    : HATEOAS 스타일 API 표현 가능
+    
+- **3.1**
+    
+    ## OpenAPI 3.1
+    
+    > JSON Schema 표준과 완전히 호환되도록 개선된 버전
+    > 
+    
+    : JSON Schema 공식 표준을 그대로 지원하게 되었다
+    
+    ### 특징
+    
+    #### 1. JSON Schema 호환
+    
+    : 3.0에서는 일부만 지원했는데, 완전히 호환되었다
+    
+    → nullable 처리 개선, if/then/else 지원, const 지원
+    
+    #### 2. nullable 제거
+    
+    3.0 방식
+    
+    ```yaml
+    nullable: true
+    ```
+    
+    3.1 방식
+    
+    ```yaml
+    type:
+      - string
+      - "null"
+    ```
+    
+    #### 3. 웹 표준 강화
+    
+    : 웹 표준과의 호환성 증가, Validation 도구 연동 강화
+    
+    #### 4. examples 개선
+    
+    : 예제 데이터 표현 방식이 더 유연해짐
+    
+
+| 항목 | OpenAPI 2.0 | OpenAPI 3.0 | OpenAPI 3.1 |
+| --- | --- | --- | --- |
+| 명칭 | Swagger 2.0 | OpenAPI 3.0 | OpenAPI 3.1 |
+| 발표 시기 | 2014 | 2017 | 2021 |
+| Request Body | 제한적 | requestBody 지원 | 개선 유지 |
+| Content-Type | consumes/produces | content 기반 | content 기반 |
+| Schema 재사용 | 제한적 | components 지원 | 개선 유지 |
+| JSON Schema 호환 | 부분 지원 | 부분 지원 | 완전 호환 |
+| nullable 처리 | 미지원 | nullable: true | null 타입 사용 |
+| 확장성 | 낮음 | 높음 | 매우 높음 |
+
+- 웹
